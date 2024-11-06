@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ movie['Title'] }}</title>
+    <link rel="icon" href="/static/IMG_8093.JPG" type="image/png" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='movie_page.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="nav-container">
+        <nav>
+          <ul>
+            <li>
+              <a class="logo" href="/">
+                <img
+                  src="/static/ZZZ.png"
+                  alt="Logo"
+                  width="200"
+                  height="40"
+                />
+              </a>
+            </li>
+            <li><a href="/more_movies">Movies</a></li>
+            <li><a href="/movie_news">Movie News</a></li>
+            <li><a href="/wishlist">Wishlist</a></li>
+            <li><a href="/likedlist">Favorites</a></li>
+            <li><a href="/watchlist">Watched</a></li>
+          </ul>
+        </nav>
+        <div class="auth-buttons">
+          {% if 'user_id' in session %}
+          <a href="/account"><i class="fas fa-user"></i> {{ username }}</a>
+          {% else %}
+          <a href="/signup">Sign Up</a>
+          <a href="/login">Login</a>
+          {% endif %}
+        </div>
+      </div>
+    </header>
+    <main>
+      <div class="movie">
+        <img
+          class="movie-page-poster"
+          src="https://image.tmdb.org/t/p/original/{{ movie['Poster_Path'] }}"
+          alt="Movie Poster"
+        />
+        <div class="movie-details">
+          <h2>{{ movie['Title'] }}</h2>
+          <div class="overview">
+            <p><em>{{ movie['Overview'] }}</em></p>
+          </div>
+          <span class="movie-info">
+            {% if movie['spoken_languages'] is defined and
+            movie['spoken_languages']|string != '' and
+            movie['spoken_languages']|string !='nan' %} {% for language_code in
+            movie['spoken_languages'] %}
+            <button class="language">{{ language_code }}</button>
+            {% endfor %} {% endif %}
+            <span>{{ movie['Runtime'] }} min</span>
+            <span>|</span>
+            <span>{{ movie['Release_Date'] }}</span>
+          </span>
+
+          <div class="info-table">
+            {% if movie['Genres'] is defined and
+            movie['Genres']|string != '' and
+            movie['Genres']|string !='nan' %}
+            <p>Genres:</p>
+            <div class="genres-list">
+              {% for genre in movie['Genres'].split(', ') %}
+              <a
+                href="/more_movies?sort-filter=&genres={{ genre }}"
+                class="genre-tag"
+                >{{ genre }},</a
+              >
+              {% endfor %}
+            </div>
+            {% endif %}
+
+            <p>Director:</p>
+            <p>{{ movie['Director'] }}</p>
+
+            {% if movie['cast3'] is defined and movie['cast3']|string != '' and
+            movie['cast3']|string !='nan' %}
+            <p>Cast:</p>
+            <p>{{ movie['cast3'] }}</p>
+            {% endif %} {% if movie['Homepage'] is defined and
+            movie['Homepage']|string != '' and movie['Homepage']|string !='nan'
+            %}
+            <!-- Add your Homepage display code here -->
+            {% endif %} {% if movie['production_companies'] is defined and
+            movie['production_companies']|string != '' and
+            movie['production_companies']|string !='nan' %}
+            <p>Production:</p>
+            <p>{{ movie['production_companies'] }}</p>
+            {% endif %} {% if movie['production_countries'] is defined and
+            movie['production_countries']|string != '' and
+            movie['production_countries']|string !='nan' %}
+            <p>Country:</p>
+            <p>{{ movie['production_countries'] }}</p>
+            {% endif %} {% if movie['budget'] is defined and
+            movie['budget']|string != '' and movie['budget']|string !='nan' %}
+            <p>Budget:</p>
+            <p><span class="money">{{ movie['budget'] }}$</span></p>
+            {% endif %} {% if movie['revenue'] is defined and
+            movie['revenue']|string != '' and movie['revenue']|string !='nan' %}
+            <p>Revenue:</p>
+            <p><span class="money">{{ movie['revenue'] }}$</span></p>
+            {% endif %}
+          </div>
+          <a href="{{ movie['Homepage'] }} " target="_blank" class="more_about"
+            ><strong>Movie Homepage</strong>
+          </a>
+
+          <!-- rating -->
+          <div class="stars" data-movie-id="{{ movie_id }}">
+            <form
+              action="{{ url_for('rate_movie_route') }}"
+              method="post"
+              class="movierating-form"
+            >
+              <input type="hidden" name="title" value="{{ movie['Title'] }}" />
+              <input type="hidden" name="movie_id" value="{{ movie_id }}" />
+
+              {% for star_value in range(1, 6) %} {% if user_rating is not none
+              %}
+              <span
+                class="star {% if user_rating >= star_value %}checked{% endif %}"
+                data-value="{{ star_value }}"
+                >&#9733;</span
+              >
+              {% else %}
+              <span class="star" data-value="{{ star_value }}">&#9733;</span>
+              {% endif %} {% endfor %}
+
+              <input
+                type="hidden"
+                name="rating"
+                id="selected-rating"
+                value="{{ user_rating }}"
+              />
+              <!-- Submit rating Button -->
+              <button
+                type="submit"
+                class="submitrating-button"
+                onclick="submitRating()"
+              >
+                Submit Rating
+              </button>
+            </form>
+          </div>
+
+          <div class="interactions">
+            <!-- Watched Button -->
+            <form
+              action="{{ url_for('movie.add_to_watched_list') }}"
+              method="post"
+              id="watched-form-{{ movie.id }}"
+            >
+              <input type="hidden" name="title" value="{{ movie['Title'] }}" />
+              <button
+                type="button"
+                class="watched-button"
+                data-movie-id="{{ movie.id }}"
+              >
+                <i class="far fa-eye" id="eye-icon-{{ movie.id }}"></i>
+                <!-- watched icon -->
+                <span class="button-text">Watched</span>
+              </button>
+            </form>
+
+            <!-- Saved Button -->
+            <form
+              action="{{ url_for('movie.add_to_wish_list') }}"
+              method="post"
+              id="saved-form-{{ movie.id }}"
+            >
+              <input type="hidden" name="title" value="{{ movie['Title'] }}" />
+              <button
+                type="button"
+                class="save-button"
+                data-movie-id="{{ movie.id }}"
+              >
+                <i
+                  class="far fa-bookmark"
+                  id="bookmark-icon-{{ movie.id }}"
+                ></i>
+                <!-- Save icon -->
+                <span class="button-text"
+                  >{% if moviee.saved %}Saved{% else %}Save{% endif %}</span
+                >
+              </button>
+            </form>
+
+            <!-- Liked Button -->
+            <form
+              action="{{ url_for('movie.add_to_liked_list') }}"
+              method="post"
+              id="liked-form-{{ movie.id }}"
+            >
+              <input type="hidden" name="title" value="{{ movie['Title'] }}" />
+              <button
+                type="button"
+                class="like-button"
+                data-movie-id="{{ movie.id }}"
+              >
+                <i
+                  class="far fa-thumbs-up"
+                  id="thumbs-up-icon-{{ movie.id }}"
+                ></i>
+                <!-- Like icon -->
+                <span class="button-text"
+                  >{% if moviee.liked %}Liked{% else %}Like{% endif %}</span
+                >
+                <span class="like-count" data-movie-id="{{ movie.id }}">0</span>
+              </button>
+            </form>
+
+            <!-- Comment Button -->
+            <form
+              action="{{ url_for('add_comment_route') }}"
+              method="post"
+              class="comment-form"
+            >
+              <input type="hidden" name="title" value="{{ movie['Title'] }}" />
+              <input type="hidden" name="movie_id" value="{{ movie['id'] }}" />
+
+              <label for="commentToggle" class="comment-button">
+                <i class="far fa-comment"></i>
+                <span class="button-text">Comment</span>
+              </label>
+
+              <input
+                type="checkbox"
+                id="commentToggle"
+                name="commentToggle"
+                style="display: none"
+              />
+
+              <!-- Text Area for Comments -->
+              <div id="comment">
+                <textarea
+                  rows="2"
+                  cols="30"
+                  placeholder="Write your comment here..."
+                  name="comment_text"
+                ></textarea>
+                <!-- Submit Button -->
+                <button type="submit" class="comment-button">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inside movie.html (for recommended movies) -->
+      {% if similar_movies%}
+      <h2>Similar Movies</h2>
+      <div class="recommended-movies">
+        {% for film in similar_movies %}
+        <div class="movie-card">
+          <a
+            href="{{ url_for('movie.movie_details', title=film['Title']) }}"
+            class="movie-link"
+          >
+            <img
+              class="movie-poster"
+              src="https://image.tmdb.org/t/p/original/{{ film['Poster_Path'] }}"
+              alt="Recommended Movie Poster"
+            />
+            <div class="movie-details">
+              <h3>{{ film['Title'] }}</h3>
+              {% if film['Tagline'] is defined and film['Tagline']|string !=
+              'nan' %}
+              <p>{{ film['Tagline'] }}</p>
+              {% endif %}
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+      {%endif %}
+      <!-- Inside movie.html -->
+      {% if comments%}
+      <div class="comments-section">
+        <h2>Comments</h2>
+
+        <!-- Filter buttons -->
+        <div class="filter-buttons">
+          <button onclick="showNewComments()">New</button>
+          <button onclick="showHotComments()">Hot</button>
+        </div>
+
+        <!-- New comments -->
+        <div id="new-comments" class="comments-container">
+          {% for comment in comments %}
+          <div class="comment">
+            <p>
+              <strong>{{ comment.user.full_name }}</strong> : {{
+              comment.comment_text }}
+            </p>
+            <p>Posted on: {{ comment.timestamp }}</p>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- Hot (positive) comments -->
+        <div id="hot-comments" class="comments-container" style="display: none">
+          {% for comment in positive_comments %}
+          <div class="comment positive-comment">
+            <p>
+              <strong>{{ comment.user.full_name }}</strong> : {{
+              comment.comment_text }}
+            </p>
+            <p>Posted on: {{ comment.timestamp }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {%endif %}
+    </main>
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="nav-container">
+        <nav>
+          <ul class="nav-list">
+            <li><a href="/more_movies">Movies</a></li>
+            <li><a href="/movie_news">Movie News</a></li>
+            <li><a href="/wishlist">Wishlist</a></li>
+            <li><a href="/likedlist">Favorites</a></li>
+            <li><a href="/watchlist">Watched</a></li>
+          </ul>
+        </nav>
+      </div>
+      <p>
+        هادي كمالة ديال كفاحي
+        <br />
+        Black Lives Matter
+        <br />
+        Le rouge qui bouje
+        <br />
+        ختامها مسك et pas mal
+      </p>
+      <div class="backtotop">
+        <a href="#" class="back-to-top">Back to Top</a>
+      </div>
+    </footer>
+  </body>
+  <script>
+      // Rating
+      function submitRating() {
+        const stars = document.querySelectorAll(".stars .star");
+        let rating = 0;
+
+        stars.forEach((star) => {
+          if (star.classList.contains("checked")) {
+            rating = star.getAttribute("data-value");
+          }
+        });
+
+        console.log("Selected Rating:", rating); // Add this line
+
+        if (rating !== 0) {
+          document.getElementById("selected-rating").value = rating;
+
+          // Submit the form
+          document.querySelector(".movierating-form").submit();
+        } else {
+          alert("Please select a rating.");
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const stars = document.querySelectorAll(".star");
+        stars.forEach(function (star) {
+          star.addEventListener("click", function () {
+            const clickedValue = parseInt(star.dataset.value);
+
+            // Toggle the color of the clicked star
+            if (star.classList.contains("checked")) {
+              star.classList.remove("checked");
+            } else {
+              star.classList.add("checked");
+              document.querySelector(".submitrating-button").style.display =
+                "block";
+            }
+
+            // Update the color of previous stars
+            stars.forEach(function (prevStar) {
+              const prevValue = parseInt(prevStar.dataset.value);
+              if (prevValue < clickedValue) {
+                prevStar.classList.add("checked");
+              } else if (prevValue > clickedValue) {
+                prevStar.classList.remove("checked");
+              }
+            });
+          });
+        });
+      });
+
+      // Comments
+      function showNewComments() {
+        document.getElementById("new-comments").style.display = "block";
+        document.getElementById("hot-comments").style.display = "none";
+      }
+
+      function showHotComments() {
+        document.getElementById("new-comments").style.display = "none";
+        document.getElementById("hot-comments").style.display = "block";
+      }
+
+      // watched Button
+      document.addEventListener("DOMContentLoaded", function() {
+          var watchedButtons = document.querySelectorAll(".watched-button");
+          watchedButtons.forEach(function(button) {
+              var movieId = button.getAttribute("data-movie-id");
+              var eyeIcon = document.querySelector("#eye-icon-" + movieId);
+
+              // Check if the movie is watched and update the eye icon accordingly
+              var isWatched = {{ moviee.watched|tojson }};
+              if (isWatched) {
+                  eyeIcon.classList.add("fa-eye-slash");
+              }
+
+              button.addEventListener("click", function(event) {
+                {% if user_id %}
+                  event.preventDefault();
+                  var movieId = button.getAttribute("data-movie-id");
+                  var eyeIcon = document.querySelector("#eye-icon-" + movieId);
+                  // Check if the eye icon is already slashed
+                  var isSlashed = eyeIcon.classList.contains("fa-eye-slash");
+
+                  // If the eye icon is already slashed, do not change it
+                  if (isSlashed) {
+                      return;
+                  }
+
+                  // Toggle the watched status and update the eye icon
+                  isWatched = !isWatched;
+                  if (isWatched) {
+                      eyeIcon.classList.add("fa-eye-slash");
+                      console.log("Movie marked as watched.");
+                  } else {
+                      eyeIcon.classList.remove("fa-eye-slash");
+                      console.log("Movie marked as unwatched.");
+                  }
+
+                  // Update the watched status in the backend
+                  var formData = new FormData(button.closest("form"));
+                  fetch(button.closest("form").action, {
+                      method: "POST",
+                      body: formData
+                  })
+                  .then(response => {
+                      if (!response.ok) {
+                          throw new Error("Network response was not ok");
+                      }
+                      return response.text();
+                  })
+                  .then(data => {
+                      console.log("Watched status updated successfully.");
+                  })
+                  .catch(error => {
+                      console.error("Error:", error);
+                  });
+                {% else %}
+                  // Handle case where user is not logged in
+                  window.location.href = "/login"; // Redirect to login page
+                {% endif %}
+              });
+          });
+      });
+
+      // Save Button
+      document.addEventListener("DOMContentLoaded", function() {
+          var savedButtons = document.querySelectorAll(".save-button");
+          savedButtons.forEach(function(button) {
+              var movieId = button.getAttribute("data-movie-id");
+              var bookmarkIcon = document.querySelector("#bookmark-icon-" + movieId);
+
+              // Check if the movie is saved and update the bookmark icon accordingly
+              var isSaved = {{ moviee.saved|tojson }};
+              if (isSaved) {
+                  bookmarkIcon.classList.add("fas", "fa-bookmark");
+                  button.querySelector(".button-text").textContent = "Saved";
+              }
+
+              button.addEventListener("click", function(event) {
+                {% if user_id %}
+                  event.preventDefault();
+                  var movieId = button.getAttribute("data-movie-id");
+                  var bookmarkIcon = document.querySelector("#bookmark-icon-" + movieId);
+                  // Check if the eye icon is already slashed
+                  var isSave = bookmarkIcon.classList.contains("fas", "fa-bookmark");
+
+                  // If the eye icon is already slashed, do not change it
+                  if (isSave) {
+                      return;
+                  }
+
+
+                  // Toggle the saved status and update the bookmark icon
+                  isSaved = !isSaved;
+                  if (isSaved) {
+                      bookmarkIcon.classList.add("fas", "fa-bookmark");
+                      button.querySelector(".button-text").textContent = "Saved";
+                      console.log("Movie saved.");
+                  } else {
+                      bookmarkIcon.classList.remove("fas", "fa-bookmark");
+                      button.querySelector(".button-text").textContent = "Save";
+                      console.log("Movie unsaved.");
+                  }
+
+                  // Update the saved status in the backend
+                  var formData = new FormData(button.closest("form"));
+                  fetch(button.closest("form").action, {
+                      method: "POST",
+                      body: formData
+                  })
+                  .then(response => {
+                      if (!response.ok) {
+                          throw new Error("Network response was not ok");
+                      }
+                      return response.text();
+                  })
+                  .then(data => {
+                      console.log("Saved status updated successfully.");
+                  })
+                  .catch(error => {
+                      console.error("Error:", error);
+                  });
+                {% else %}
+                  // Handle case where user is not logged in
+                  window.location.href = "/login"; // Redirect to login page
+                {% endif %}
+              });
+          });
+      });
+
+
+      // this script is for fetching and displaying the number of likes
+      document.addEventListener('DOMContentLoaded', function() {
+        const likeCountElements = document.querySelectorAll('.like-count'); // Select all like count elements
+
+        likeCountElements.forEach(function(likeCountElement) {
+            const movieId = likeCountElement.dataset.movieId; // Get the movie ID from data attribute
+
+            // Fetch the number of likes for the movie from the backend
+            fetch('/movie/like_count/' + movieId)
+                .then(response => response.json())
+                .then(data => {
+                    // Update the like count element with the fetched count
+                    likeCountElement.textContent = '(' + data.like_count + ')';
+                })
+                .catch(error => {
+                    console.error('Error fetching like count:', error);
+                });
+        });
+      });
+
+
+    // Liked Button
+    document.addEventListener("DOMContentLoaded", function() {
+        var likedButtons = document.querySelectorAll(".like-button");
+        likedButtons.forEach(function(button) {
+            var movieId = button.getAttribute("data-movie-id");
+            var thumbsUpIcon = document.querySelector("#thumbs-up-icon-" + movieId);
+
+            // Check if the movie is liked and update the thumbs up icon accordingly
+            var isLiked = {{ moviee.liked|tojson }};
+            if (isLiked) {
+                thumbsUpIcon.classList.add("fas", "fa-thumbs-up");
+                button.querySelector(".button-text").textContent = "Liked";
+            }
+
+            button.addEventListener("click", function(event) {
+                {% if user_id %}
+                event.preventDefault();
+                var movieId = button.getAttribute("data-movie-id");
+                var thumbsUpIcon = document.querySelector("#thumbs-up-icon-" + movieId);
+                // Check if the thumbs up icon is already solid
+                var isSolid = thumbsUpIcon.classList.contains("fas", "fa-thumbs-up");
+
+                // If the thumbs up icon is already solid, do not change it
+                if (isSolid) {
+                    return;
+                }
+
+                // Toggle the liked status and update the thumbs up icon
+                isLiked = !isLiked;
+                if (isLiked) {
+                    thumbsUpIcon.classList.add("fas", "fa-thumbs-up");
+                    button.querySelector(".button-text").textContent = "Liked";
+                    console.log("Movie liked.");
+                } else {
+                    thumbsUpIcon.classList.remove("fas", "fa-thumbs-up");
+                    button.querySelector(".button-text").textContent = "Like";
+                    console.log("Movie unliked.");
+                }
+
+                // Update the liked status in the backend
+                var formData = new FormData(button.closest("form"));
+                fetch(button.closest("form").action, {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    console.log("Liked status updated successfully.");
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+                {% else %}
+                // Handle case where user is not logged in
+                window.location.href = "/login"; // Redirect to login page
+                {% endif %}
+            });
+        });
+      });
+
+      // Footer
+      document
+        .querySelector(".back-to-top")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
+        });
+
+  </script>
+</html>

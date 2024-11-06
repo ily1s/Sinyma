@@ -1,0 +1,204 @@
+/* account css */
+.container {
+  background-color: rgba(230, 58, 58, 0.35);
+  border: 1px solid rgba(230, 58, 58, 0.35);
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px auto;
+}
+.container h1 {
+  color: #0c0a0a;
+  text-align: center;
+  margin: 50px;
+  font-size: 30px;
+  font-weight: bold;
+}
+form table {
+  width: 90%;
+  margin: 0px 20px;
+}
+form table td {
+  padding: 10px 0;
+}
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 15px;
+}
+:disabled {
+  background: #c7c5c5;
+}
+input[type="submit"] {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+input[type="submit"]:disabled {
+  background-color: #9c9b9b; /* Change the background color when disabled */
+  color: #533737; /* Change the text color when disabled */
+  cursor: inherit;
+}
+.password-container {
+  position: relative;
+}
+
+.password-container .fa-eye {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.validation {
+  display: block;
+  background-color: #4caf50;
+  color: #fff;
+  text-align: center;
+  font-size: 16px;
+}
+/* Settings styles */
+.settings {
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.settings a {
+  text-decoration: none;
+  color: #9b9b9b;
+  padding: 10px;
+  border-radius: 5px;
+  margin-right: 10px;
+  display: inline-block;
+  cursor: pointer;
+}
+.settings a.active {
+  background-color: #b42929;
+  color: #fff;
+  border-bottom: 2px solid #696565;
+}
+.settings a:hover {
+  background-color: #7c0d0d;
+}
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}
+.buttons a {
+  background-color: #ec0000;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  text-decoration: none;
+}
+/* movies history css */
+.settings {
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+.settings a {
+  text-decoration: none;
+  color: #9b9b9b;
+  padding: 10px;
+  border-radius: 5px;
+  margin-right: 10px;
+  display: inline-block;
+  cursor: pointer;
+}
+.options {
+  display: flex;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+.options a {
+  text-decoration: none;
+  color: #100e0e;
+  padding: 10px;
+  border-radius: 5px;
+  width: 50%;
+  display: inline-block;
+  cursor: pointer;
+  margin: 10px;
+}
+.settings a.active,
+.options a.active {
+  background-color: #b42929;
+  color: #fff;
+  border-bottom: 2px solid #696565;
+}
+.settings a:hover,
+.options a:hover {
+  color: #ddd;
+  background-color: #7c0d0d;
+}
+.movie-card {
+  border: 0.1px solid #d6c8c8;
+}
+/* articles history */
+.all-articles-section {
+  flex: 1 1 100%; /* Each section takes full width */
+}
+
+.articles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.article {
+  flex-basis: calc(30% - 20px); /* Three articles per row */
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #fce7e7b3;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+.article img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+.read-more {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #b30000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  text-decoration: none;
+}
+.read-more:hover {
+  background-color: #8c0000;
+}
+.description-container {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 3; /* Limit to 3 lines */
+}
+.description {
+  line-height: 1.2em;
+  font-size: 15px;
+}
+.logo-container {
+  text-align: center; /* Center the logo */
+}
+.loGo {
+  display: block;
+  margin: 0 auto;
+}

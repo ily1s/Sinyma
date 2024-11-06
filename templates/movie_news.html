@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Movie News</title>
+    <link rel="icon" href="/static/IMG_8093.JPG" type="image/png">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='movie_news.css') }}"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  </head>
+  <body>
+    <header>
+      <div class="nav-container">
+        <nav>
+          <ul>
+            <li>
+              <a class="logo" href="/">
+                <img
+                  src="/static/ZZZ.png"
+                  alt="Logo"
+                  width="200"
+                  height="40"
+                />
+              </a>
+            </li>
+            <li><a href="/more_movies">Movies</a></li>
+            <li><a href="/movie_news">Movie News</a></li>
+            <li><a href="/wishlist">Wishlist</a></li>
+            <li><a href="/likedlist">Favorites</a></li>
+            <li><a href="/watchlist">Watched</a></li>
+          </ul>
+        </nav>
+        <div class="auth-buttons">
+          {% if 'user_id' in session %}
+          <a href="/account"><i class="fas fa-user"></i> {{ username }}</a> 
+          {% else %}
+          <a href="/signup">Sign Up</a>
+          <a href="/login">Login</a>
+          {% endif %}
+        </div>
+      </div>
+    </header>
+    <div class="container">
+      <h1>Movie News</h1>
+      <div class="search-container">
+        <form action="/movie_news" method="POST">
+          <input
+            type="text"
+            placeholder="Search for articles..."
+            name="search"
+          />
+          <button type="submit">
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
+      </div>
+      <div class="articles">
+
+        <!-- Rec Articles -->
+        {% if recommended_articles %}
+        <div class="recommended-section">
+          <h2 class="section-title">Recommended</h2>
+          <div class="articles">
+            <div class="horizontal-scroll-container">
+              {% for article in recommended_articles %}
+              <div class="article">
+                <h3>{{ article['Title'] }}</h3>
+                <img src="{{ article['Image'] }}" alt="Article Image" />
+                <div class="description-container">
+                  <p class="description">{{ article['Description'] }}</p>
+                </div>
+                <p><strong>Author:</strong> {{ article['Author'] }}</p>
+                <form id="interaction-form-recommended-{{ loop.index }}" action="/record_interaction" method="POST">
+                  <input type="hidden" id="article-title-input-recommended-{{ loop.index }}" name="article_title" value="">
+                  {% if username ==None  %}
+                  <a href="/login" class="read-more" >Read More</a>
+                  {%else %}
+                  <a href="{{ article['Link'] }}" class="read-more" target="_blank" onclick="recordInteraction('{{ article['Title'] | replace("'", "\\'") }}', 'recommended-{{ loop.index }}')">Read More</a>
+                  {% endif %}
+                </form>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div> 
+        {% endif %} 
+
+        <!-- New --> 
+        <div class="new-articles-section">
+          <h2 class="section-title">New</h2>
+          <div class="articles">
+              {% for article in newest_articles %}
+              <div class="article">
+                  <h3>{{ article['Title'] }}</h3>
+                  <img src="{{ article['Image'] }}" alt="Article Image" />
+                  <div class="description-container">
+                    <p class="description">{{ article['Description'] }}</p>
+                  </div>
+                  <p><strong>Author:</strong> {{ article['Author'] }}</p>
+                  <form id="interaction-form-recommended-{{ loop.index }}" action="/record_interaction" method="POST">
+                    <input type="hidden" id="article-title-input-recommended-{{ loop.index }}" name="article_title" value="">
+                    {% if username ==None  %}
+                    <a href="/login" class="read-more" >Read More</a>
+                    {%else %}
+                    <a href="{{ article['Link'] }}" class="read-more" target="_blank" onclick="recordInteraction('{{ article['Title'] | replace("'", "\\'") }}', 'recommended-{{ loop.index }}')">Read More</a>
+                    {% endif %}
+                  </form>
+              </div>
+              {% endfor %}
+          </div>
+        </div>   
+
+        <!-- All Articles -->
+        <div class="all-articles-section">
+          <h2 class="section-title">All Articles</h2>
+          <div class="articles">
+            {% for article in articles %}
+            <div class="article">
+              <h3>{{ article['Title'] }}</h3>
+              <img src="{{ article['Image'] }}" alt="Article Image" />
+              <div class="description-container">
+                <p class="description">{{ article['Description'] }}</p>
+              </div>
+              <p><strong>Author:</strong> {{ article['Author'] }}</p>
+              <form id="interaction-form-recommended-{{ loop.index }}" action="/record_interaction" method="POST">
+                <input type="hidden" id="article-title-input-recommended-{{ loop.index }}" name="article_title" value="">
+                {% if username ==None  %}
+                <a href="/login" class="read-more" >Read More</a>
+                {%else %}
+                <a href="{{ article['Link'] }}" class="read-more" target="_blank" onclick="recordInteraction('{{ article['Title'] | replace("'", "\\'") }}', 'recommended-{{ loop.index }}')">Read More</a>
+                {% endif %}
+              </form>
+            </div>
+            {% endfor %}
+          </div>
+        </div> 
+      </div> 
+      <div class="pagination" style="text-align: center">
+        {% if num_pages > 1 %}
+            {% if current_page > 1 %}
+                <a href="{{ url_for('movie_news.movie_news', page=current_page-1) }}" class="prev">&laquo; Previous</a>
+            {% endif %}
+            {% if current_page > 3 %}
+                <a href="{{ url_for('movie_news.movie_news', page=1) }}">1</a>
+                {% if current_page > 4 %}
+                    <span>...</span>
+                {% endif %}
+            {% endif %}
+            {% set start_page = current_page - 2 if current_page - 2 > 0 else 1 %}
+            {% set end_page = current_page + 2 if current_page + 2 < num_pages else num_pages %}
+            {% for p in range(start_page, end_page + 1) %}
+                <a href="{{ url_for('movie_news.movie_news', page=p) }}" {% if p == current_page %} class="active" {% endif %}>{{ p }}</a>
+            {% endfor %}
+            {% if current_page < num_pages - 2 %}
+                {% if current_page < num_pages - 3 %}
+                    <span>...</span>
+                {% endif %}
+                <a href="{{ url_for('movie_news.movie_news', page=num_pages) }}">{{ num_pages }}</a>
+            {% endif %}
+            {% if current_page < num_pages %}
+                <a href="{{ url_for('movie_news.movie_news', page=current_page+1) }}" class="next">Next &raquo;</a>
+            {% endif %}
+        {% endif %}
+      </div>  
+    </div>
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="nav-container">
+        <nav>
+          <ul class="nav-list">
+            <li><a href="/more_movies">Movies</a></li>
+            <li><a href="/movie_news">Movie News</a></li>
+            <li><a href="/wishlist">Wishlist</a></li>
+            <li><a href="/likedlist">Favorites</a></li>
+            <li><a href="/watchlist">Watched</a></li>
+          </ul>
+        </nav>
+      </div>
+      <p>
+        هادي كمالة ديال كفاحي
+        <br />
+        Black Lives Matter
+        <br />
+        Le rouge qui bouje
+        <br />
+        ختامها مسك et pas mal
+      </p>
+      <div class="backtotop">
+        <a href="#" class="back-to-top">Back to Top</a>
+      </div>
+    </footer>
+  </body>
+  <script>
+    function recordInteraction(articleTitle, formId) {
+            document.getElementById("article-title-input-" + formId).value = articleTitle;
+            document.getElementById("interaction-form-" + formId).submit();
+    }
+    // footer
+    document
+      .querySelector(".back-to-top")
+      .addEventListener("click", function (e) {
+        e.preventDefault();
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      });
+
+    // nav
+    document.addEventListener("DOMContentLoaded", function () {
+      const activePage = window.location.pathname;
+      const navLinks = document.querySelectorAll("nav a");
+      navLinks.forEach((link) => {
+        if (link.classList.contains("logo")) {
+          // Skip adding 'active' class to the logo link so we don't get it underlined
+          return;
+        }
+        if (link.getAttribute("href") === activePage) {
+          link.classList.add("active");
+        }
+      });
+    });  
+  </script>
+</html>

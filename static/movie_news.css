@@ -1,0 +1,375 @@
+body {
+  font-family: Arial, sans-serif;
+  background-image: linear-gradient(
+      45deg,
+      rgb(37, 6, 46) 0%,
+      rgb(37, 6, 46) 28%,
+      rgb(66, 27, 59) 28%,
+      rgb(66, 27, 59) 31%,
+      rgb(96, 48, 72) 31%,
+      rgb(96, 48, 72) 59%,
+      rgb(125, 69, 85) 59%,
+      rgb(125, 69, 85) 66%,
+      rgb(154, 90, 97) 66%,
+      rgb(154, 90, 97) 68%,
+      rgb(184, 111, 110) 68%,
+      rgb(184, 111, 110) 94%,
+      rgb(213, 132, 123) 94%,
+      rgb(213, 132, 123) 100%
+    ),
+    linear-gradient(
+      112.5deg,
+      rgb(37, 6, 46) 0%,
+      rgb(37, 6, 46) 28%,
+      rgb(66, 27, 59) 28%,
+      rgb(66, 27, 59) 31%,
+      rgb(96, 48, 72) 31%,
+      rgb(96, 48, 72) 59%,
+      rgb(125, 69, 85) 59%,
+      rgb(125, 69, 85) 66%,
+      rgb(154, 90, 97) 66%,
+      rgb(154, 90, 97) 68%,
+      rgb(184, 111, 110) 68%,
+      rgb(184, 111, 110) 94%,
+      rgb(213, 132, 123) 94%,
+      rgb(213, 132, 123) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgb(37, 6, 46) 0%,
+      rgb(37, 6, 46) 28%,
+      rgb(66, 27, 59) 28%,
+      rgb(66, 27, 59) 31%,
+      rgb(96, 48, 72) 31%,
+      rgb(96, 48, 72) 59%,
+      rgb(125, 69, 85) 59%,
+      rgb(125, 69, 85) 66%,
+      rgb(154, 90, 97) 66%,
+      rgb(154, 90, 97) 68%,
+      rgb(184, 111, 110) 68%,
+      rgb(184, 111, 110) 94%,
+      rgb(213, 132, 123) 94%,
+      rgb(213, 132, 123) 100%
+    ),
+    linear-gradient(
+      135deg,
+      rgb(37, 6, 46) 0%,
+      rgb(37, 6, 46) 28%,
+      rgb(66, 27, 59) 28%,
+      rgb(66, 27, 59) 31%,
+      rgb(96, 48, 72) 31%,
+      rgb(96, 48, 72) 59%,
+      rgb(125, 69, 85) 59%,
+      rgb(125, 69, 85) 66%,
+      rgb(154, 90, 97) 66%,
+      rgb(154, 90, 97) 68%,
+      rgb(184, 111, 110) 68%,
+      rgb(184, 111, 110) 94%,
+      rgb(213, 132, 123) 94%,
+      rgb(213, 132, 123) 100%
+    ),
+    linear-gradient(90deg, rgb(100, 205, 26), rgb(46, 36, 113));
+  background-blend-mode: overlay, overlay, overlay, overlay, normal;
+  margin: 0;
+  padding: 0;
+}
+.container {
+  max-width: 85%;
+  margin: 0 auto;
+  padding: 20px;
+}
+header {
+  background-color: #333;
+  color: white;
+  padding: 10px 0;
+}
+.nav-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+nav {
+  position: relative;
+  z-index: 1;
+}
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 10px;
+}
+
+nav ul li a:not(.logo) {
+  color: white;
+  text-decoration: none;
+  padding: 5px 10px;
+  position: relative;
+  transition: color 0.3s, transform 0.3s;
+}
+nav a:not(.logo):hover {
+  color: #990000; /* Change color on hover */
+  color: darkred; /* Change color on hover */
+  transform: translateY(-3px); /* Move text up slightly on hover */
+}
+nav ul li a:not(.logo)::before {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: darkred; /* Underline color */
+  transform: scaleX(0); /* Initially no underline */
+  transition: transform 0.3s;
+}
+nav ul li a:not(.logo):hover::before {
+  transform: scaleX(1); /* Expand underline on hover */
+}
+
+nav a.active::after {
+  content: ""; /* Create a pseudo-element for the underline */
+  position: absolute; /* Position the underline relative to the link */
+  left: 0; /* Start the underline from the left edge of the link */
+  bottom: -2px; /* Adjust the distance of the underline from the text */
+  width: 100%; /* Make the underline span the entire width of the link */
+  height: 2px; /* Set the thickness of the underline */
+  background-color: darkred; /* Set the color of the underline*/
+}
+
+.logo {
+  vertical-align: middle;
+}
+.auth-buttons {
+  display: flex;
+}
+.auth-buttons a {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #b51c1c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  margin-right: 10px;
+}
+.auth-buttons a:hover {
+  background-color: #7f0101;
+}
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #fff;
+}
+h2 {
+  margin: 20px;
+  color: #fff;
+}
+.articles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.recommended-section,
+.new-articles-section,
+.all-articles-section {
+  flex: 1 1 100%; /* Each section takes full width */
+}
+.article {
+  flex-basis: calc(30% - 20px); /* Three articles per row */
+  padding: 20px;
+  border: 1px solid #ccc;
+  background-color: #eaeaea;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+.article img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+.recommended-section .articles {
+  display: flex;
+  flex-wrap: nowrap; /* Prevent wrapping to the next line */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  gap: 20px; /* Spacing between articles */
+  padding-bottom: 10px; /* Add some bottom padding to ensure the last article is fully visible */
+}
+.recommended-section .horizontal-scroll-container {
+  display: flex;
+  flex-wrap: nowrap; /* Prevent wrapping to the next line */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  gap: 10px; /* Adjust the spacing between articles */
+  padding-bottom: 10px; /* Add some bottom padding to ensure the last article is fully visible */
+  max-width: 100%; /* Adjust the maximum width of the container */
+}
+.recommended-section .article {
+  flex-shrink: 0; /* Prevent articles from shrinking */
+  flex-basis: calc(30% - 20px); /* Three articles per row */
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.read-more {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #b30000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  text-decoration: none;
+}
+.read-more:hover {
+  background-color: #8c0000;
+}
+.description-container {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 3; /* Limit to 3 lines */
+}
+.description {
+  line-height: 1.2em;
+  font-size: 15px;
+}
+
+.search-container {
+  max-width: 960px;
+  margin: 0 auto;
+  background: #ffffff; /* Adjust the color to match the screenshot */
+  border-radius: 25px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.search-container input[type="text"] {
+  width: 80%;
+  padding: 12px 20px;
+  display: inline-block;
+  border: none;
+  border-radius: 25px;
+  background-color: transparent;
+  color: rgb(0, 0, 0);
+  font-size: 16px;
+  outline: none; 
+}
+
+.search-container button {
+  width: 15%;
+  padding: 12px 20px;
+  margin: 2px 0;
+  border: none;
+  border-radius: 25px;
+  background-color: #b30000;
+  color: white;
+  text-align: center;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.search-container input[type="text"]::placeholder {
+  color: #858585; /* Adjust the placeholder color to match the screenshot */
+}
+
+/* Resize the button on smaller screens */
+@media screen and (max-width: 600px) {
+  .search-container button {
+    width: 100%;
+  }
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.pagination {
+  margin-top: 20px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.pagination a {
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 0 5px;
+  background-color: #f0f0f0;
+  color: #333;
+  border-radius: 3px;
+  text-decoration: none;
+}
+.pagination a.active {
+  background-color: #333;
+  color: #fff;
+}
+.pagination a:hover {
+  background-color: #ddd;
+}
+.pagination .next {
+  font-weight: bold;
+  color: #6b1c1c;
+  text-decoration: none;
+}
+
+.footer {
+  text-align: center;
+  padding: 10px 0;
+  padding-top: 5px;
+  background-color: #000000d0;
+  color: #fff;
+}
+
+.footer .nav-container {
+  max-width: 600px; /* adjust the max-width to your liking */
+  margin: 0 auto; /* center the nav container */
+  padding: 20px; /* add some padding to the nav container */
+}
+
+.nav-list {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  justify-content: center; /* center the nav items */
+}
+
+.nav-list li {
+  margin: 0 10px;
+}
+
+.nav-list a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.back-to-top {
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #990000; /* Rich burgundy */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.back-to-top:hover {
+  background-color: #660000;
+}
+.backtotop {
+  max-width: 10%;
+  align-items: center;
+  margin: 0 auto;
+}

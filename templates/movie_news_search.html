@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='movie_news.css') }}"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Movie News</title>
+    <link rel="icon" href="/static/IMG_8093.JPG" type="image/png">
+  </head>
+  <body>
+    <header>
+      <div class="nav-container">
+        <nav>
+          <ul>
+            <li>
+              <a class="logo" href="/">
+                <img
+                  src="/static/ZZZ.png"
+                  alt="Logo"
+                  width="200"
+                  height="40"
+                />
+              </a>
+            </li>
+            <li><a href="/more_movies">Movies</a></li>
+            <li><a href="/movie_news">Movie News</a></li>
+            <li><a href="/wishlist">Wishlist</a></li>
+            <li><a href="/likedlist">Favorites</a></li>
+            <li><a href="/watchlist">Watched</a></li>
+          </ul>
+        </nav>
+        <div class="auth-buttons">
+          {% if 'user_id' in session %}
+          <a href="/account"><i class="fas fa-user"></i> {{ username }}</a> 
+          {% else %}
+          <a href="/signup">Sign Up</a>
+          <a href="/login">Login</a>
+          {% endif %}
+        </div>
+      </div>
+    </header>
+    <div class="container">
+      <h1>Movie News</h1>
+      <div class="search-container">
+        <form action="/movie_news" method="POST">
+          <input
+            type="text"
+            placeholder="Search for articles..."
+            name="search"
+          />
+          <button type="submit">Search</button>
+        </form>
+      </div>
+      <div class="articles">
+        <div class="all-articles-section">
+          <h2 class="section-title">Results for  " {{ search }} "</h2>
+          <div class="articles">
+            {% for article in articles %}
+            <div class="article">
+              <h3>{{ article['Title'] }}</h3>
+              <img src="{{ article['Image'] }}" alt="Article Image" />
+              <div class="description-container">
+                <p class="description">{{ article['Description'] }}</p>
+              </div>
+              <p><strong>Author:</strong> {{ article['Author'] }}</p>
+              <<form id="interaction-form-recommended-{{ loop.index }}" action="/record_interaction" method="POST">
+                <input type="hidden" id="article-title-input-recommended-{{ loop.index }}" name="article_title" value="">
+                {% if username ==None  %}
+                <a href="/login" class="read-more" >Read More</a>
+                {%else %}
+                <a href="{{ article['Link'] }}" class="read-more" target="_blank" onclick="recordInteraction('{{ article['Title'] | replace("'", "\\'") }}', 'recommended-{{ loop.index }}'); return false;">Read More</a>
+                {% endif %}
+              </form>
+            </div>
+            {% endfor %}
+          </div>
+        </div> 
+      </div>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="nav-container">
+      <nav>
+        <ul class="nav-list">
+          <li><a href="/more_movies">Movies</a></li>
+          <li><a href="/movie_news">Movie News</a></li>
+          <li><a href="/wishlist">Wishlist</a></li>
+          <li><a href="/likedlist">Favorites</a></li>
+          <li><a href="/watchlist">Watched</a></li>
+        </ul>
+      </nav>
+    </div>
+    <p>
+      هادي كمالة ديال كفاحي
+      <br />
+      Black Lives Matter
+      <br />
+      Le rouge qui bouje
+      <br />
+      ختامها مسك et pas mal
+    </p>
+    <div class="backtotop">
+      <a href="#" class="back-to-top">Back to Top</a>
+    </div>
+  </footer>
+</body>
+<script>
+  function recordInteraction(articleTitle, formId) {
+    const xhr = new XMLHttpRequest();
+    const form = document.getElementById("interaction-form-" + formId);
+    const formData = new FormData(form);
+    formData.set("article_title", articleTitle);
+
+    xhr.open("POST", form.action, true);
+    xhr.onload = function () {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        console.log("Interaction recorded successfully.");
+      } else {
+        console.error("Failed to record interaction.");
+      }
+    };
+    xhr.onerror = function () {
+      console.error("Request failed.");
+    };
+    xhr.send(formData);
+
+    // Open the article link in a new tab
+    window.open(form.querySelector("a.read-more").href, "_blank");
+  }
+
+  // nav
+  document.addEventListener("DOMContentLoaded", function () {
+    const activePage = window.location.pathname;
+    const navLinks = document.querySelectorAll("nav a");
+    navLinks.forEach((link) => {
+      if (link.classList.contains("logo")) {
+        // Skip adding 'active' class to the logo link so we don't get it underlined
+        return;
+      }
+      if (link.getAttribute("href") === activePage) {
+        link.classList.add("active");
+      }
+    });
+  });
+  
+  document
+    .querySelector(".back-to-top")
+    .addEventListener("click", function (e) {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    });
+</script>
+</html>

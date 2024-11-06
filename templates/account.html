@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Account page </title>
+    <link rel="icon" href="/static/IMG_8093.JPG" type="image/png">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='movie_page.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='profil.css') }}"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  </head>
+  <body>
+    <header>
+      <div class="nav-container">
+        <nav>
+          <ul>
+            <li>
+              <a class="logo" href="/">
+                <img
+                  src="/static/ZZZ.png"
+                  alt="Logo"
+                  width="200"
+                  height="40"
+                />
+              </a>
+            </li>
+            <li><a href="/more_movies">Movies</a></li>
+            <li><a href="/movie_news">Movie News</a></li>
+            <li><a href="/wishlist">Wishlist</a></li>
+            <li><a href="/likedlist">Favorites</a></li>
+            <li><a href="/watchlist">Watched</a></li>
+          </ul>
+        </nav>
+        <div class="auth-buttons">
+          {% if 'user_id' in session %}
+          <a href="/account"><i class="fas fa-user"></i> {{ fullname }}</a>     
+          {% else %}
+          <a href="/signup">Sign Up</a>
+          <a href="/login">Login</a>
+          {% endif %}
+        </div>
+      </div>
+    </header>
+    <main>
+      <div class="settings">
+        <a href="/account" {% if current_page == 'account' %}class="active"{% endif %}>
+            <i class="fas fa-user-circle"></i> Profile
+        </a>
+        <a href="/history" {% if current_page == 'historique' %}class="active"{% endif %}>
+            <i class="fas fa-history"></i> Historique
+        </a>
+    </div>
+    
+      
+        <div class="container">
+          <div class="logo-container">
+            <img
+              src="/static/LOGO.jpg"
+              alt="LoGo"
+              width="100"
+              height="100"
+              class="logo"
+            />
+          </div>
+        <h1>Profil Details </h1>
+        <div class="infos">    
+              {% if validation==True %}
+              <span class="validation">profile Informations changed  successfully !</span>
+              {% elif  validation==False%}
+              <span class="validation">profile Informations not changed !</span>
+              {% endif %}
+            <form action="{{ url_for('account.modification')}}" method="post">
+
+                <table>
+                    <body>
+                        <tr>
+                          <td>
+                            <label for="username">Username</label>
+                          </td>
+                          <td>
+                            <input type="text" name="fullname" value="{{ user_infos.username }}" id="username" disabled/>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <label for="fullname">Full name</label>
+                          </td>
+                          <td>
+                            <input type="text" name="fullname" value="{{ fullname }}" id="fullname" required/>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <label for="Email">Email</label>
+                          </td>
+                          <td>
+                            <input type="email" name="email" value="{{ user_infos.email }}" id="email" required/>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <label for="mdps">Password</label>
+                          </td>
+                          <td>
+                          
+                            <div class="password-container">
+                                <input type="password" name="mdps" value="{{ user_infos.password }}" id="mdps" required/>
+                                <i class="fas fa-eye" id="togglePassword"></i>
+                            </div>
+
+                          </td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td>
+                            <div class="buttons">
+                            <input type="submit" value="Modify" id="modifyButton" disabled >
+                            <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>     
+                          </div>
+                          </td>
+                        </tr>
+                    </body>
+                </table>
+            </form>
+        </div>
+        </div>
+    </main>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get form elements and initial values
+        var fullnameInput = document.getElementById('fullname');
+        var emailInput = document.getElementById('email');
+        var passwordInput = document.getElementById('mdps');
+        var modifyButton = document.getElementById('modifyButton');
+
+        // Store initial values of form fields
+        var initialFullname = fullnameInput.value.trim();
+        var initialEmail = emailInput.value.trim();
+        var initialPassword = passwordInput.value.trim();
+
+        // Function to check if any field has changed
+          function checkFormChanges() {
+              var currentFullname = fullnameInput.value.trim();
+              var currentEmail = emailInput.value.trim();
+              var currentPassword = passwordInput.value.trim(); 
+
+              var isChanged = currentFullname !== initialFullname ||
+                              currentEmail !== initialEmail ||
+                              currentPassword !== initialPassword;  
+
+              modifyButton.disabled = !isChanged;
+          } 
+
+          // Attach input event listeners to form fields
+          fullnameInput.addEventListener('input', checkFormChanges);
+          emailInput.addEventListener('input', checkFormChanges);
+          passwordInput.addEventListener('input', checkFormChanges);  
+
+          // Call checkFormChanges initially to set initial state
+          checkFormChanges();
+      });
+      // for the password eye
+      document.addEventListener('DOMContentLoaded', function() {
+      var passwordInput = document.getElementById('mdps');
+      var togglePassword = document.getElementById('togglePassword'); 
+
+      togglePassword.addEventListener('click', function() {
+          if (passwordInput.value.trim() !== '') {
+              var type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+              passwordInput.setAttribute('type', type); 
+
+              // Change eye icon based on password visibility
+              togglePassword.classList.toggle('fa-eye-slash');
+          }
+      });
+    });
+
+  </script>
+</html>

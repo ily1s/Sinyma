@@ -1,0 +1,194 @@
+body {
+  font-family: Arial, sans-serif;
+  background-image: linear-gradient(
+      45deg,
+      rgb(37, 6, 46) 0%,
+      rgb(37, 6, 46) 28%,
+      rgb(66, 27, 59) 28%,
+      rgb(66, 27, 59) 31%,
+      rgb(96, 48, 72) 31%,
+      rgb(96, 48, 72) 59%,
+      rgb(125, 69, 85) 59%,
+      rgb(125, 69, 85) 66%,
+      rgb(154, 90, 97) 66%,
+      rgb(154, 90, 97) 68%,
+      rgb(184, 111, 110) 68%,
+      rgb(184, 111, 110) 94%,
+      rgb(213, 132, 123) 94%,
+      rgb(213, 132, 123) 100%
+    ),
+    linear-gradient(
+      112.5deg,
+      rgb(37, 6, 46) 0%,
+      rgb(37, 6, 46) 28%,
+      rgb(66, 27, 59) 28%,
+      rgb(66, 27, 59) 31%,
+      rgb(96, 48, 72) 31%,
+      rgb(96, 48, 72) 59%,
+      rgb(125, 69, 85) 59%,
+      rgb(125, 69, 85) 66%,
+      rgb(154, 90, 97) 66%,
+      rgb(154, 90, 97) 68%,
+      rgb(184, 111, 110) 68%,
+      rgb(184, 111, 110) 94%,
+      rgb(213, 132, 123) 94%,
+      rgb(213, 132, 123) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgb(37, 6, 46) 0%,
+      rgb(37, 6, 46) 28%,
+      rgb(66, 27, 59) 28%,
+      rgb(66, 27, 59) 31%,
+      rgb(96, 48, 72) 31%,
+      rgb(96, 48, 72) 59%,
+      rgb(125, 69, 85) 59%,
+      rgb(125, 69, 85) 66%,
+      rgb(154, 90, 97) 66%,
+      rgb(154, 90, 97) 68%,
+      rgb(184, 111, 110) 68%,
+      rgb(184, 111, 110) 94%,
+      rgb(213, 132, 123) 94%,
+      rgb(213, 132, 123) 100%
+    ),
+    linear-gradient(
+      135deg,
+      rgb(37, 6, 46) 0%,
+      rgb(37, 6, 46) 28%,
+      rgb(66, 27, 59) 28%,
+      rgb(66, 27, 59) 31%,
+      rgb(96, 48, 72) 31%,
+      rgb(96, 48, 72) 59%,
+      rgb(125, 69, 85) 59%,
+      rgb(125, 69, 85) 66%,
+      rgb(154, 90, 97) 66%,
+      rgb(154, 90, 97) 68%,
+      rgb(184, 111, 110) 68%,
+      rgb(184, 111, 110) 94%,
+      rgb(213, 132, 123) 94%,
+      rgb(213, 132, 123) 100%
+    ),
+    linear-gradient(90deg, rgb(100, 205, 26), rgb(46, 36, 113));
+  background-blend-mode: overlay, overlay, overlay, overlay, normal;
+  margin: 0;
+  padding: 0;
+}
+.container {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+h1 {
+  text-align: center;
+}
+form {
+  margin-top: 20px;
+}
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.logo-container {
+  text-align: center; /* Center the logo */
+}
+.logo {
+  display: block;
+  margin: 0 auto;
+}
+
+/* Sign up */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+button[type="submit"] {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #990000;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+button[type="submit"]:hover {
+  background-color: #660000;
+}
+.password-container {
+  position: relative;
+}
+
+.password-container .fa-eye {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-85%);
+  cursor: pointer;
+}
+
+/* Login */
+input[type="text"],
+input[type="password"] {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.error {
+  color: red;
+}
+
+/* Preferences */
+input[type="text"],
+select {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 12a1 1 0 01-1-1V5a1 1 0 112 0v6a1 1 0 01-1 1zM6 9a1 1 0 01-1-1V5a1 1 0 112 0v3a1 1 0 01-1 1zm8 0a1 1 0 01-1-1V5a1 1 0 112 0v3a1 1 0 01-1 1z" clip-rule="evenodd" /></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 14px;
+  padding-right: 30px;
+}
+
+.box {
+  margin-bottom: 20px;
+}
+.fav input {
+  margin-bottom: 0px;
+}
+
+.results ul {
+  overflow-y: scroll;
+  list-style: none;
+  margin-top: 0px;
+  border-radius: 5px;
+  padding: 5px 0px 15px 10px;
+  max-height: 150px;
+  background-color: #fff;
+}
+.results ul li {
+  padding: 5px 12px;
+}
+.results ul li:hover {
+  background: #f5f5f5;
+  cursor: pointer;
+}

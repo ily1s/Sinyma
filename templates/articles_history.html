@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Account page </title>
+    <link rel="icon" href="/static/IMG_8093.JPG" type="image/png">
+    <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='movies.css') }}"
+  />
+  <link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='profil.css') }}"
+/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  
+  </head>
+  <body>
+    <header>
+      <div class="nav-container">
+        <nav>
+          <ul>
+            <li>
+              <a class="logo" href="/">
+                <img
+                  src="/static/ZZZ.png"
+                  alt="Logo"
+                  width="200"
+                  height="40"
+                />
+              </a>
+            </li>
+            <li><a href="/more_movies">Movies</a></li>
+            <li><a href="/movie_news">Movie News</a></li>
+            <li><a href="/wishlist">Wishlist</a></li>
+            <li><a href="/likedlist">Favorites</a></li>
+            <li><a href="/watchlist">Watched</a></li>
+          </ul>
+        </nav>
+        <div class="auth-buttons">
+          {% if 'user_id' in session %}
+          <a href="/account"><i class="fas fa-user"></i> {{ username }}</a>  
+          {% else %}
+          <a href="/signup">Sign Up</a>
+          <a href="/login">Login</a>
+          {% endif %}
+        </div>
+      </div>
+    </header>
+    <main>
+      <div class="settings">
+        <a href="/account" {% if current_page == 'account' %}class="active"{% endif %}>
+            <i class="fas fa-user-circle"></i> Profile
+        </a>
+        <a href="/history" class="active">
+            <i class="fas fa-history"></i> Historique
+        </a>
+    </div>
+
+        <div class="container">
+            <div class="options">
+                <a href="/history" {% if current_page == 'historique' %}class="active"{% endif %}>Movies</a>
+                <a href="{{ url_for('history.articles_history')}}" {% if current_page == 'articles_history' %}class="active"{% endif %}>Articles</a>
+            </div>
+            <h1>Articles History</h1>
+            <div class="all-articles-section">
+                    <div class="articles">
+                      {% for article in read_articles %}
+                      {% if article['Title'] and article['Image'] and article['Description'] and article['Author'] and article['Link'] %}
+                      <div class="article">
+                        <h3>{{ article['Title'] }}</h3>
+                        <img src="{{ article['Image'] }}" alt="Article Image" />
+                        <div class="description-container">
+                          <p class="description">{{ article['Description'] }}</p>
+                        </div>
+                        <p><strong>Author:</strong> {{ article['Author'] }}</p>
+                        <form id="interaction-form-recommended-{{ loop.index }}" action="/record_interaction" method="POST">
+                          <input type="hidden" id="article-title-input-recommended-{{ loop.index }}" name="article_title" value="">
+                          {% if username ==None  %}
+                          <a href="/login" class="read-more" >Read More</a>
+                          {%else %}
+                          <a href="{{ article['Link'] }}" class="read-more" target="_blank">Read More</a>
+                          {% endif %}
+                        </form>
+                      </div>
+                      {% endif %}
+                      {% endfor %}
+                    </div>
+            </div> 
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="nav-container">
+        <nav>
+          <ul class="nav-list">
+            <li><a href="/more_movies">Movies</a></li>
+            <li><a href="/movie_news">Movie News</a></li>
+            <li><a href="/wishlist">Wishlist</a></li>
+            <li><a href="/likedlist">Favorites</a></li>
+            <li><a href="/watchlist">Watched</a></li>
+          </ul>
+        </nav>
+      </div>
+      <p>
+        هادي كمالة ديال كفاحي
+        <br />
+        Black Lives Matter
+        <br />
+        Le rouge qui bouje
+        <br />
+        ختامها مسك et pas mal
+      </p>
+      <div class="backtotop">
+        <a href="#" class="back-to-top">Back to Top</a>
+      </div>
+    </footer>
+  </body>
+  <script>
+    document
+      .querySelector(".back-to-top")
+      .addEventListener("click", function (e) {
+        e.preventDefault();
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      });
+  </script>
+</html>

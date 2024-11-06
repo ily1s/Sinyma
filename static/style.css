@@ -1,0 +1,539 @@
+html, body {
+  overflow-x: hidden;
+}
+body {
+  font-family: Arial, sans-serif;
+  background-image: linear-gradient(
+      45deg,
+      rgb(37, 6, 46) 0%,
+      rgb(37, 6, 46) 28%,
+      rgb(66, 27, 59) 28%,
+      rgb(66, 27, 59) 31%,
+      rgb(96, 48, 72) 31%,
+      rgb(96, 48, 72) 59%,
+      rgb(125, 69, 85) 59%,
+      rgb(125, 69, 85) 66%,
+      rgb(154, 90, 97) 66%,
+      rgb(154, 90, 97) 68%,
+      rgb(184, 111, 110) 68%,
+      rgb(184, 111, 110) 94%,
+      rgb(213, 132, 123) 94%,
+      rgb(213, 132, 123) 100%
+    ),
+    linear-gradient(
+      112.5deg,
+      rgb(37, 6, 46) 0%,
+      rgb(37, 6, 46) 28%,
+      rgb(66, 27, 59) 28%,
+      rgb(66, 27, 59) 31%,
+      rgb(96, 48, 72) 31%,
+      rgb(96, 48, 72) 59%,
+      rgb(125, 69, 85) 59%,
+      rgb(125, 69, 85) 66%,
+      rgb(154, 90, 97) 66%,
+      rgb(154, 90, 97) 68%,
+      rgb(184, 111, 110) 68%,
+      rgb(184, 111, 110) 94%,
+      rgb(213, 132, 123) 94%,
+      rgb(213, 132, 123) 100%
+    ),
+    linear-gradient(
+      90deg,
+      rgb(37, 6, 46) 0%,
+      rgb(37, 6, 46) 28%,
+      rgb(66, 27, 59) 28%,
+      rgb(66, 27, 59) 31%,
+      rgb(96, 48, 72) 31%,
+      rgb(96, 48, 72) 59%,
+      rgb(125, 69, 85) 59%,
+      rgb(125, 69, 85) 66%,
+      rgb(154, 90, 97) 66%,
+      rgb(154, 90, 97) 68%,
+      rgb(184, 111, 110) 68%,
+      rgb(184, 111, 110) 94%,
+      rgb(213, 132, 123) 94%,
+      rgb(213, 132, 123) 100%
+    ),
+    linear-gradient(
+      135deg,
+      rgb(37, 6, 46) 0%,
+      rgb(37, 6, 46) 28%,
+      rgb(66, 27, 59) 28%,
+      rgb(66, 27, 59) 31%,
+      rgb(96, 48, 72) 31%,
+      rgb(96, 48, 72) 59%,
+      rgb(125, 69, 85) 59%,
+      rgb(125, 69, 85) 66%,
+      rgb(154, 90, 97) 66%,
+      rgb(154, 90, 97) 68%,
+      rgb(184, 111, 110) 68%,
+      rgb(184, 111, 110) 94%,
+      rgb(213, 132, 123) 94%,
+      rgb(213, 132, 123) 100%
+    ),
+    linear-gradient(90deg, rgb(100, 205, 26), rgb(46, 36, 113));
+  background-blend-mode: overlay, overlay, overlay, overlay, normal;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+header {
+  background-color: #333;
+  color: white;
+  padding: 10px 0;
+  position: relative; /* Add this line */
+  z-index: 1; /* Add this line */
+}
+
+.nav-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 90%;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+nav {
+  position: relative;
+  z-index: 1;
+}
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 10px;
+}
+
+nav ul li a:not(.logo) {
+  color: white;
+  text-decoration: none;
+  padding: 5px 10px;
+  position: relative;
+  transition: color 0.3s, transform 0.3s;
+}
+nav a:not(.logo):hover {
+  color: #990000; /* Change color on hover */
+  color: darkred; /* Change color on hover */
+  transform: translateY(-3px); /* Move text up slightly on hover */
+}
+nav ul li a:not(.logo)::before {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: darkred; /* Underline color */
+  transform: scaleX(0); /* Initially no underline */
+  transition: transform 0.3s;
+}
+nav ul li a:not(.logo):hover::before {
+  transform: scaleX(1); /* Expand underline on hover */
+}
+nav a.active::after {
+  content: ""; /* Create a pseudo-element for the underline */
+  position: absolute; /* Position the underline relative to the link */
+  left: 0; /* Start the underline from the left edge of the link */
+  bottom: -2px; /* Adjust the distance of the underline from the text */
+  width: 100%; /* Make the underline span the entire width of the link */
+  height: 2px; /* Set the thickness of the underline */
+  background-color: darkred; /* Set the color of the underline*/
+}
+.logo {
+  vertical-align: middle;
+}
+
+.auth-buttons {
+  display: flex;
+}
+
+.auth-buttons a {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #b51c1c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+.auth-buttons a:hover {
+  background-color: #7f0101;
+}
+
+.inner_content {
+  position: relative;
+  width: 112%;
+  height: 80vh;
+  margin: -30px auto 0; /* Adjust the top margin to remove the space */
+  z-index: 0; /* Add this line */
+  overflow: hidden; /* Prevents the background from overflowing */
+  margin-bottom: 30px;
+  left: -6%;
+  right: -6%;
+}
+
+.background_8 {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  border-image: fill 0 linear-gradient(rgba(0, 0, 0, 0.084), #000);
+}
+
+.background_8::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* Adjust the alpha value to change transparency */
+  z-index: -1; /* Ensure the overlay is behind other content */
+}
+
+.media {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  position: relative; /* Ensure the content is positioned relative to the section */
+  z-index: 1; /* Ensure the content is above the overlay */
+  width: 100%; /* Make the media class width 100% */
+  max-width: 100%; 
+}
+
+.column_wrapper {
+  display: flex;
+  width: 100%; /* Make the media class width 100% */
+  max-width: 100%; 
+}
+
+.content_wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* Make the media class width 100% */
+  max-width: 100%; 
+}
+
+.title h3 {
+  font-family: "Source Sans Pro", Arial, sans-serif;
+  font-size: 1.3em;
+  text-align: center;
+  color: white;
+  font-weight: 500;
+}
+
+.title h1 {
+  font-family: "Source Sans Pro", Arial, sans-serif;
+  color: white;
+  font-size: 3em;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.search {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#inner_search {
+  max-width: 70%;
+  height: 80%;
+  margin: 0 auto;
+  margin-top: 20px;
+  background: #ffffff;
+  border-radius: 50px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
+}
+
+#inner_search input[type="text"] {
+  width: 90%;
+  padding: 12px 20px;
+  display: inline-block;
+  border: none;
+  border-radius: 50px;
+  background-color: transparent;
+  color: rgb(0, 0, 0);
+  font-size: 16px;
+  outline: none; 
+}
+
+#inner_search button {
+  width: 7%;
+  height: 100%;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 50px;
+  background-color: #b30000e3; /* Adjust the color to match the screenshot */
+  color: white;
+  text-align: center;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 25px 0px 25px 10px;
+  color: antiquewhite;
+}
+
+.movie {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  width: 800px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.recommended-movies,
+.popular-movies,
+.favorite-movies,
+.top-rated-movies {
+  display: flex;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  padding: 20px 0;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+.movie-card {
+  flex: 0 0 auto; /* Prevent movies from stretching */
+  width: 210px;
+  height: 400px;
+  background-color: #eaeaea;
+  border: 0.5px solid #ddd;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+  overflow: hidden; /* Hide any overflowing content */
+  margin-right: 5px; /* Add spacing between movie cards */
+  transition: transform 0.3s ease;
+}
+
+.movie-card .movie-details {
+  padding: 5px;
+  margin: 1px;
+}
+
+.movie-card h3 {
+  margin: 0;
+  font-size: 17px; /* Reduce font size for movie title */
+  line-height: 1.2; /* Adjust line height for readability */
+}
+
+.movie-card p {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #666;
+}
+
+.movie-card:hover {
+  background-color: #eaeaea;
+  transform: scale(1.05);
+}
+
+.movie-poster {
+  width: 100%;
+  height: 75%;
+}
+
+.movie-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.footer {
+  text-align: center;
+  padding: 10px 0;
+  padding-top: 5px;
+  background-color: #000000d0;
+  color: #fff;
+}
+
+.footer .nav-container {
+  max-width: 600px; /* adjust the max-width to your liking */
+  margin: 0 auto; /* center the nav container */
+  padding: 20px; /* add some padding to the nav container */
+}
+
+.nav-list {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  justify-content: center; /* center the nav items */
+}
+
+.nav-list li {
+  margin: 0 10px;
+}
+
+.nav-list a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.back-to-top {
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background-color: #990000; /* Rich burgundy */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.back-to-top:hover {
+  background-color: #660000;
+}
+.backtotop {
+  max-width: 10%;
+  align-items: center;
+  margin: 0 auto;
+}
+.head-container {
+  display: flex;
+  justify-content: space-between; /* Align items horizontally */
+  align-items: center; /* Center items vertically */
+  margin-bottom: 20px; /* Adjust spacing */
+  margin-top: 20px;
+}
+
+.section-title {
+  margin: 0; /* Remove default margin */
+}
+
+#see-more-button {
+  background-color: #990000; /* Example background color */
+  color: #fff; /* Text color */
+  border: none;
+  padding: 10px 20px; /* Adjust padding */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer;
+  transition: background-color 0.3s; /* Smooth transition */
+  margin-right: 10px;
+}
+
+#see-more-button:hover {
+  background-color: #660000; /* Change background color on hover */
+}
+
+/* Custom scrollbar styles */
+.recommended-movies,
+.popular-movies,
+.favorite-movies,
+.top-rated-movies {
+  display: flex;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  padding: 20px 0;
+  margin-bottom: 20px;
+  gap: 20px; /* Spacing between movie cards */
+}
+
+.recommended-movies::-webkit-scrollbar,
+.popular-movies::-webkit-scrollbar,
+.favorite-movies::-webkit-scrollbar,
+.top-rated-movies::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+.recommended-movies::-webkit-scrollbar-track,
+.popular-movies::-webkit-scrollbar-track,
+.favorite-movies::-webkit-scrollbar-track,
+.top-rated-movies::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.1); /* Track color */
+}
+
+.recommended-movies::-webkit-scrollbar-thumb,
+.popular-movies::-webkit-scrollbar-thumb,
+.favorite-movies::-webkit-scrollbar-thumb,
+.top-rated-movies::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3); /* Thumb color */
+  border-radius: 5px; /* Rounded corners for the thumb */
+}
+
+.recommended-movies::-webkit-scrollbar-thumb:hover,
+.popular-movies::-webkit-scrollbar-thumb:hover,
+.favorite-movies::-webkit-scrollbar-thumb:hover,
+.top-rated-movies::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.5); /* Thumb color on hover */
+}
+
+/* Hide scrollbar when not interacting */
+.recommended-movies,
+.popular-movies,
+.favorite-movies,
+.top-rated-movies {
+  scrollbar-width: thin; /* Hide the scrollbar */
+  scrollbar-color: transparent transparent; /* Hide the scrollbar track and thumb */
+}
+
+.recommended-movies:hover,
+.popular-movies:hover,
+.favorite-movies:hover,
+.top-rated-movies:hover {
+  scrollbar-width: thin; /* Show the scrollbar on hover */
+  scrollbar-color: rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.1); /* Customize scrollbar on hover */
+}
+
+/* CSS styles for the autocomplete list */
+.list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  max-height: 200px; /* Limit the height of the autocomplete list */
+  background-color: rgba(
+    241,
+    241,
+    241,
+    0.5
+  ); /* Slightly transparent background */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  position: absolute; /* Position the list absolutely */
+  width: calc(100% - 20px); /* Set the width to match the input field */
+  top: 42px; /* Position the list below the input field */
+  left: 10px; /* Align the list with the input field */
+}
+
+.list-items {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.list-items:hover {
+  background-color: #ddd;
+}

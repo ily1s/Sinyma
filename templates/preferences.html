@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie Preferences</title>
+    <link rel="icon" href="/static/IMG_8093.JPG" type="image/png" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='auth.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="logo-container">
+        <img
+          src="/static/LOGO.jpg"
+          alt="Logo"
+          width="100"
+          height="100"
+          class="logo"
+        />
+      </div>
+      <h1>Movie Preferences</h1>
+      <form action="/preferences" method="post">
+        <div class="box">
+          <div class="fav">
+            <label for="favorite_movie1">Favorite Movie 1:</label>
+            <input
+              type="text"
+              id="favorite_movie1"
+              name="favorite_movie1"
+              required
+              autocomplete="off"
+              aria-label="your favorite movie"
+            />
+          </div>
+          <div class="results results1"></div>
+        </div>
+        <div class="box">
+          <div class="fav">
+            <label for="favorite_movie2">Favorite Movie 2:</label>
+            <input
+              type="text"
+              id="favorite_movie2"
+              name="favorite_movie2"
+              required
+              autocomplete="off"
+            />
+          </div>
+          <div class="results results2"></div>
+        </div>
+        <div class="box">
+          <div class="fav">
+            <label for="favorite_movie3">Favorite Movie 3:</label>
+            <input
+              type="text"
+              id="favorite_movie3"
+              name="favorite_movie3"
+              required
+              autocomplete="off"
+            />
+          </div>
+          <div class="results results3"></div>
+        </div>
+
+        <label for="actor">Favorite Actor/Actress:</label>
+        <input type="text" id="actor" name="actor" required />
+
+        <label for="genre">Favorite Genre:</label>
+        <select class="form-control" id="genre" name="genre">
+          <option value="action">Action</option>
+          <option value="adventure">Adventure</option>
+          <option value="animation">Animation</option>
+          <option value="biography">Biography</option>
+          <option value="comedy">Comedy</option>
+          <option value="crime">Crime</option>
+          <option value="documentary">Documentary</option>
+          <option value="drama">Drama</option>
+          <option value="family">Family</option>
+          <option value="fantasy">Fantasy</option>
+          <option value="film-noir">Film-Noir</option>
+          <option value="history">History</option>
+          <option value="horror">Horror</option>
+          <option value="music">Music</option>
+          <option value="musical">Musical</option>
+          <option value="mystery">Mystery</option>
+          <option value="romance">Romance</option>
+          <option value="sci-fi">Science Fiction</option>
+          <option value="sport">Sport</option>
+          <option value="thriller">Thriller</option>
+          <option value="war">War</option>
+          <option value="western">Western</option>
+          <!-- Add more options as needed -->
+        </select>
+
+        <label for="themes">Favorite Themes:</label>
+        <select class="form-control" id="themes" name="themes">
+          <option value="romance">Romance</option>
+          <option value="adventure">Adventure</option>
+          <option value="fantasy">Fantasy</option>
+          <option value="sci-fi">Science Fiction</option>
+          <option value="action">Action</option>
+          <option value="comedy">Comedy</option>
+          <option value="drama">Drama</option>
+          <option value="horror">Horror</option>
+          <option value="mystery">Mystery</option>
+          <option value="thriller">Thriller</option>
+          <option value="crime">Crime</option>
+          <option value="animation">Animation</option>
+          <option value="documentary">Documentary</option>
+          <option value="family">Family</option>
+          <option value="history">History</option>
+          <option value="music">Music</option>
+          <option value="sport">Sport</option>
+          <option value="war">War</option>
+          <option value="western">Western</option>
+          <!-- Add more options as needed -->
+        </select>
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </body>
+  <script>
+    const suggested_movies = {{ suggestedMovies | tojson | safe }};
+    const results1 = document.querySelector(".results1");
+    const results2 = document.querySelector(".results2");
+    const results3 = document.querySelector(".results3");
+    const inputBox1 = document.getElementById("favorite_movie1");
+    const inputBox2 = document.getElementById("favorite_movie2");
+    const inputBox3 = document.getElementById("favorite_movie3");
+
+    inputBox1.oninput = function() {
+      let result = [];
+      let input = inputBox1.value;
+      if (input.length) {
+        result = suggested_movies.filter((keyword) => {
+          return keyword.toLowerCase().includes(input.toLowerCase());
+        });
+        display(result, results1, inputBox1);
+        if (!result.length) {
+          results1.innerHTML = "";
+        }
+      }
+    }
+
+    inputBox2.oninput = function() {
+      let result = [];
+      let input = inputBox2.value;
+      if (input.length) {
+        result = suggested_movies.filter((keyword) => {
+          return keyword.toLowerCase().includes(input.toLowerCase());
+        });
+        display(result, results2, inputBox2);
+        if (!result.length) {
+          results2.innerHTML = "";
+        }
+      }
+    }
+
+    inputBox3.oninput = function() {
+      let result = [];
+      let input = inputBox3.value;
+      if (input.length) {
+        result = suggested_movies.filter((keyword) => {
+          return keyword.toLowerCase().includes(input.toLowerCase());
+        });
+        display(result, results3, inputBox3);
+        if (!result.length) {
+          results3.innerHTML = "";
+        }
+      }
+    }
+
+    function display(result, results, inputBox) {
+      const content = result.map((movie) => {
+        return `<li onclick="selectInput('${movie}', '${inputBox.id}')">${movie}</li>`;
+      });
+      results.innerHTML = `<ul>${content.join('')}</ul>`;
+    };
+
+    function selectInput(selectedMovie, inputBoxId) {
+      const inputBox = document.getElementById(inputBoxId);
+      inputBox.value = selectedMovie;
+      const resultsContainer = inputBoxId.replace('favorite_movie', 'results');
+      document.querySelector(`.${resultsContainer}`).innerHTML = '';
+    }
+  </script>
+</html>
